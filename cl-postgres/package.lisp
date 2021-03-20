@@ -24,6 +24,7 @@
            #:close-database
            #:wait-for-notification
            #:exec-query
+           #:exec-script
            #:prepare-query
            #:unprepare-query
            #:exec-prepared

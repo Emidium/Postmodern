@@ -437,7 +437,7 @@ every $$. When called, this returned function produces an SQL string in
 which the placeholders have been replaced by the values of the arguments."
   (let* ((*expand-runtime* t)
          (compiled (reduce-strings (sql-expand form)))
-         (*print-pretty* nil))
+/         (*print-pretty* nil))
     (lambda (&rest args)
       (with-output-to-string (*standard-output*)
         (dolist (element compiled)
@@ -494,7 +494,7 @@ with a given arity."
         (:unary-postfix (lambda (args)
                           (check-unary args)
                           `("(" ,@(sql-expand (car args)) " " ,name ")")))
-        (:n-ary (lambda (args)
+        (:n-ary (lambda (args) 
                   (if (cdr args)
                       (expand-n-ary args)
                       (sql-expand (car args)))))
@@ -1190,6 +1190,15 @@ A few examples:
       ,@(if having (cons " HAVING " (sql-expand (car having))))
       ,@(if window (cons " WINDOW " (sql-expand-list window)))
       ")")))
+
+(def-sql-op :grant (&rest args)
+  (split-on-keywords ((vars *) (on * ?) (to * ?)) (cons :vars args)
+    `("(GRANT "
+      ,@(sql-expand-list vars)
+      ,@(if on (cons " ON TABLE " (expand-joins on)))
+      ,@(if to (cons " TO " (expand-joins to)))
+      ")")))
+
 
 (def-sql-op :grouping-sets (&rest args)
   "Grouping-sets allows multiple group-by in a single query

@@ -370,6 +370,13 @@ for notifications."
                                          (postgresql-notification-pid c))))))
         (message-case (connection-socket connection))))))
 
+(defun exec-script (connection script)
+  "Execute a script with no expectation of a result."
+  (check-type script string)
+  (with-reconnect-restart connection
+    (using-connection connection
+      (send-exec-non-query (connection-socket connection) script))))
+
 (defun exec-query (connection query &optional (row-reader 'ignore-row-reader))
   "Sends the given query to the given connection, and interprets the results
  (if there are any) with the given row-reader. If the database returns

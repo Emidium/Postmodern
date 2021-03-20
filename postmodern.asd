@@ -26,6 +26,7 @@
                "s-sql"
                "global-vars"
                "split-sequence"
+               "cl-fad"
                "cl-unicode"
                (:feature :postmodern-use-mop "closer-mop")
                (:feature :postmodern-thread-safe "bordeaux-threads"))
@@ -44,7 +45,9 @@
                          (:file "table" :depends-on ("util" "transaction" "query")
                                 :if-feature :postmodern-use-mop)
                          (:file "deftable" :depends-on
-                                ("query" (:feature :postmodern-use-mop "table"))))))
+                                ("query" (:feature :postmodern-use-mop "table")))
+                         (:file "db-deploy" :depends-on ("deftable")))))
+
   :in-order-to ((test-op (test-op "postmodern/tests"))))
 
 (defsystem "postmodern/tests"

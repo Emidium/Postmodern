@@ -73,6 +73,11 @@
    #:get-database-comment
    #:encode-json-to-string
 
+   ;; Db-Deploy
+   #:db-deploy-migrate
+   #:db-deploy-drop-all-tables
+   #:db-deploy-files
+
    ;; Prepared Statement Functions
    #:*allow-overwriting-prepared-statements*
    #:prepared-statement-exists-p
